@@ -101,8 +101,8 @@ function updateLikes(toy) {
   })
     .then(res => res.json())
     .then(json => {
-      toyArray[(id - 1)] = json;
+      const toy = toyArray.find(toy => toy.id === id);
+      toy.likes = json.likes;
       loadToys(toyArray);
-      console.log(json);
     })
 }
