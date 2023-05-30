@@ -64,7 +64,7 @@ function displayToy(toy) {
   
   toysDiv.append(toyContainer);
   button.addEventListener("click", () => {
-    updateLikes(toy, likes);
+    updateLikes(toy);
   });
 }
 
@@ -91,14 +91,18 @@ function addNewToy(event) {
   form.reset();
 }
 
-function updateLikes(toy, likeTotal) {
+function updateLikes(toy) {
   const id = toy.id;
-  toy.likes++;
-  newLikes = toy.likes;
-  likeTotal.innerText = newLikes;
+  newLikes = toy.likes + 1;
   fetch(`${apiURL}/${id}`, {
     headers,
     method: "PATCH",
-    body: JSON.stringify({likes : newLikes})
+    body: JSON.stringify({"likes" : newLikes})
   })
+    .then(res => res.json())
+    .then(json => {
+      toyArray[(id - 1)] = json;
+      loadToys(toyArray);
+      console.log(json);
+    })
 }
